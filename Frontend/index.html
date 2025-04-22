@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmacia SaludVida</title>
+  <link href="./output.css" rel="stylesheet">
+
+</head>
+<body class="min-h-screen bg-gradient-to-tr from-blue-100 via-green-100 to-white font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex items-center space-x-3">
+          <!-- Cruz médica estilizada -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M13 3h-2v5H6v2h5v5h2v-5h5V8h-5V3z"/>
+          </svg>
+          <span class="text-3xl font-bold text-green-700 tracking-wide">Farmacia SaludVida</span>
+        </div>
+        <div class="hidden md:flex space-x-6">
+          <button onclick="mostrarSeccion('inicio')" class="text-gray-700 hover:text-green-600 font-medium">Inicio</button>
+          <button onclick="mostrarSeccion('medicamentos')" class="text-gray-700 hover:text-green-600 font-medium">Medicamentos</button>
+          <button onclick="mostrarSeccion('servicios')" class="text-gray-700 hover:text-green-600 font-medium">Servicios</button>
+          <button onclick="mostrarSeccion('promociones')" class="text-gray-700 hover:text-green-600 font-medium">Promociones</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido dinámico -->
+  <div class="max-w-5xl mx-auto mt-10 p-6 sm:p-10 bg-white rounded-xl shadow-lg">
+    <div id="contenido">
+      <div id="buscadorInicio" class="mb-6 text-center">
+        <input type="text" id="buscador" placeholder="Buscar en la farmacia..." class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+      </div>
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Bienvenido a Farmacia SaludVida</h2>
+      <p class="text-gray-700">Selecciona una sección del menú para ver su contenido.</p>
+    </div>
+  </div>
+
+  <script>
+    const datos = {
+      inicio: {
+        titulo: "Bienvenido a Farmacia SaludVida",
+        descripcion: "Somos tu farmacia de confianza, abierta 24/7.",
+        items: ["Atención personalizada", "Farmacéuticos certificados", "Ambiente higiénico"]
+      },
+      medicamentos: {
+        titulo: "Medicamentos disponibles",
+        descripcion: "Contamos con analgésicos, antibióticos, vitaminas y más.",
+        items: ["Paracetamol", "Amoxicilina", "Vitamina C", "Ibuprofeno", "Jarabe para la tos"]
+      },
+      servicios: {
+        titulo: "Nuestros servicios",
+        descripcion: "Toma de presión, control de glucosa, asesoría farmacéutica.",
+        items: ["Toma de presión", "Control de azúcar", "Aplicación de inyecciones", "Atención domiciliaria"]
+      },
+      promociones: {
+        titulo: "Promociones del mes",
+        descripcion: "Hasta 20% de descuento en medicamentos seleccionados.",
+        items: ["Descuento en vitaminas", "2x1 en jarabes", "10% en productos naturales"]
+      }
+    };
+
+    async function mostrarSeccion(seccion) {
+    const respuesta = await fetch(`http://localhost:3001/api/seccion/${seccion}`);
+    const info = await respuesta.json();
+
+    if (info.error) {
+      document.getElementById('contenido').innerHTML = `<p class="text-red-500">${info.error}</p>`;
+      return;
+    }
+
+    const mostrarBuscador = seccion === 'inicio';
+    const listaItems = info.items.map(item => `<li>${item}</li>`).join('');
+
+    document.getElementById('contenido').innerHTML = `
+      ${mostrarBuscador ? `
+        <div id="buscadorInicio" class="mb-6 text-center">
+          <input type="text" id="buscador" placeholder="Buscar en la farmacia..." class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+        </div>
+      ` : ''}
+      <h2 class="text-2xl font-bold text-green-700 mb-3">${info.titulo}</h2>
+      <p class="text-gray-800 mb-4">${info.descripcion}</p>
+      <h3 class="text-lg font-semibold text-gray-700 mb-2">Contenido relacionado:</h3>
+      <ul id="lista-items" class="list-disc pl-5 space-y-1 text-gray-700">${listaItems}</ul>
+    `;
+
+    if (mostrarBuscador) {
+      const buscador = document.getElementById('buscador');
+      buscador.addEventListener('input', () => {
+        const filtro = buscador.value.toLowerCase();
+        const lista = document.getElementById('lista-items');
+        lista.innerHTML = info.items
+          .filter(item => item.toLowerCase().includes(filtro))
+          .map(item => `<li>${item}</li>`)
+          .join('');
+      });
+    }
+  }
+  </script>
+
+</body>
+</html>
