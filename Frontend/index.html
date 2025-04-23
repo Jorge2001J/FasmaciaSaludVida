@@ -1,106 +1,136 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farmacia SaludVida</title>
-  <link href="./output.css" rel="stylesheet">
-
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-gradient-to-tr from-blue-100 via-green-100 to-white font-sans">
+<body class="bg-gradient-to-br from-green-100 to-blue-50 text-gray-800">
 
-  <!-- Navbar -->
-  <nav class="bg-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <div class="flex items-center space-x-3">
-          <!-- Cruz médica estilizada -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M13 3h-2v5H6v2h5v5h2v-5h5V8h-5V3z"/>
-          </svg>
-          <span class="text-3xl font-bold text-green-700 tracking-wide">Farmacia SaludVida</span>
-        </div>
-        <div class="hidden md:flex space-x-6">
-          <button onclick="mostrarSeccion('inicio')" class="text-gray-700 hover:text-green-600 font-medium">Inicio</button>
-          <button onclick="mostrarSeccion('medicamentos')" class="text-gray-700 hover:text-green-600 font-medium">Medicamentos</button>
-          <button onclick="mostrarSeccion('servicios')" class="text-gray-700 hover:text-green-600 font-medium">Servicios</button>
-          <button onclick="mostrarSeccion('promociones')" class="text-gray-700 hover:text-green-600 font-medium">Promociones</button>
-        </div>
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-green-700">Farmacia SaludVida</h1>
+      <div class="space-x-6">
+        <button onclick="mostrarSeccion('inicio')" class="hover:text-green-600 font-medium">Inicio</button>
+        <button onclick="mostrarSeccion('medicamentos')" class="hover:text-green-600 font-medium">Medicamentos</button>
+        <button onclick="mostrarSeccion('servicios')" class="hover:text-green-600 font-medium">Servicios</button>
+        <button onclick="mostrarSeccion('contacto')" class="hover:text-green-600 font-medium">Contacto</button>
       </div>
     </div>
   </nav>
 
-  <!-- Contenido dinámico -->
-  <div class="max-w-5xl mx-auto mt-10 p-6 sm:p-10 bg-white rounded-xl shadow-lg">
-    <div id="contenido">
-      <div id="buscadorInicio" class="mb-6 text-center">
-        <input type="text" id="buscador" placeholder="Buscar en la farmacia..." class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+  <!-- CONTENIDO -->
+  <main id="contenido" class="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+    <!-- INICIO por defecto -->
+    <div id="inicio">
+      <h2 class="text-4xl font-bold text-center text-green-700 mb-6">Farmacia SaludVida</h2>
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <img src="https://via.placeholder.com/300x200" alt="Farmacia" class="rounded-xl shadow-md">
+        <p class="text-lg text-gray-700">
+          Bienvenido a Farmacia SaludVida, tu lugar de confianza para el cuidado de la salud. Ofrecemos atención especializada,
+          productos de alta calidad y un equipo listo para ayudarte 24/7.
+        </p>
       </div>
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Bienvenido a Farmacia SaludVida</h2>
-      <p class="text-gray-700">Selecciona una sección del menú para ver su contenido.</p>
     </div>
-  </div>
+  </main>
 
+  <!-- SCRIPT -->
   <script>
-    const datos = {
-      inicio: {
-        titulo: "Bienvenido a Farmacia SaludVida",
-        descripcion: "Somos tu farmacia de confianza, abierta 24/7.",
-        items: ["Atención personalizada", "Farmacéuticos certificados", "Ambiente higiénico"]
-      },
-      medicamentos: {
-        titulo: "Medicamentos disponibles",
-        descripcion: "Contamos con analgésicos, antibióticos, vitaminas y más.",
-        items: ["Paracetamol", "Amoxicilina", "Vitamina C", "Ibuprofeno", "Jarabe para la tos"]
-      },
-      servicios: {
-        titulo: "Nuestros servicios",
-        descripcion: "Toma de presión, control de glucosa, asesoría farmacéutica.",
-        items: ["Toma de presión", "Control de azúcar", "Aplicación de inyecciones", "Atención domiciliaria"]
-      },
-      promociones: {
-        titulo: "Promociones del mes",
-        descripcion: "Hasta 20% de descuento en medicamentos seleccionados.",
-        items: ["Descuento en vitaminas", "2x1 en jarabes", "10% en productos naturales"]
-      }
+    const secciones = {
+      medicamentos: `
+        <h2 class="text-3xl font-bold text-green-700 mb-4">Nuestros Medicamentos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          ${[
+            {nombre: 'Paracetamol', desc: 'Alivia el dolor y la fiebre.', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Ibuprofeno', desc: 'Antiinflamatorio y analgésico.', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Amoxicilina', desc: 'Antibiótico para infecciones.', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Omeprazol', desc: 'Reduce la acidez estomacal.', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Vitamina C', desc: 'Refuerza el sistema inmunológico.', img: 'https://via.placeholder.com/200'},
+          ].map(m => `
+            <div class="bg-blue-50 p-4 rounded-xl shadow">
+              <img src="${m.img}" alt="${m.nombre}" class="w-full h-40 object-cover rounded-md mb-3">
+              <h3 class="text-xl font-semibold">${m.nombre}</h3>
+              <p>${m.desc}</p>
+            </div>`).join('')}
+        </div>
+      `,
+
+      servicios: `
+        <h2 class="text-3xl font-bold text-green-700 mb-4">Nuestros Servicios</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          ${[
+            {nombre: 'Toma de presión', precio: 'Bs 10', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Control de glucosa', precio: 'Bs 15', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Asesoría farmacéutica', precio: 'Gratis', img: 'https://via.placeholder.com/200'},
+            {nombre: 'Entrega a domicilio', precio: 'Bs 5', img: 'https://via.placeholder.com/200'},
+          ].map(s => `
+            <div class="bg-green-50 p-4 rounded-xl shadow">
+              <img src="${s.img}" alt="${s.nombre}" class="w-full h-40 object-cover rounded-md mb-3">
+              <h3 class="text-xl font-semibold">${s.nombre}</h3>
+              <p class="text-gray-600">Precio: <strong>${s.precio}</strong></p>
+            </div>`).join('')}
+        </div>
+      `,
+
+      contacto: `
+        <h2 class="text-3xl font-bold text-green-700 mb-4">Contáctanos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p><strong>Correo:</strong> contacto@saludvida.bo</p>
+            <p><strong>Teléfono:</strong> +591 71234567</p>
+            <p><strong>Ubicación:</strong> Av. Principal #123, Trinidad - Beni</p>
+          </div>
+          <div>
+            <form id="formulario" class="space-y-3">
+              <input type="text" id="nombre" placeholder="Tu nombre" required class="w-full border px-4 py-2 rounded">
+              <input type="email" id="correo" placeholder="Tu correo" required class="w-full border px-4 py-2 rounded">
+              <textarea id="mensaje" placeholder="Tu mensaje" required class="w-full border px-4 py-2 rounded"></textarea>
+              <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Enviar</button>
+            </form>
+            <div id="comentarios" class="mt-4"></div>
+          </div>
+        </div>
+      `
     };
 
-    async function mostrarSeccion(seccion) {
-    const respuesta = await fetch(`http://localhost:3001/api/seccion/${seccion}`);
-    const info = await respuesta.json();
-
-    if (info.error) {
-      document.getElementById('contenido').innerHTML = `<p class="text-red-500">${info.error}</p>`;
-      return;
+    function mostrarSeccion(id) {
+      const cont = document.getElementById('contenido');
+      if (id === 'inicio') {
+        cont.innerHTML = document.getElementById('inicio').outerHTML;
+      } else {
+        cont.innerHTML = `<div class="p-4">${secciones[id]}</div>`;
+        if (id === 'contacto') {
+          mostrarComentarios();
+          document.getElementById('formulario').addEventListener('submit', guardarComentario);
+        }
+      }
     }
 
-    const mostrarBuscador = seccion === 'inicio';
-    const listaItems = info.items.map(item => `<li>${item}</li>`).join('');
+    function guardarComentario(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const correo = document.getElementById('correo').value;
+      const mensaje = document.getElementById('mensaje').value;
+      const comentario = { nombre, correo, mensaje };
+      const comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+      comentarios.push(comentario);
+      localStorage.setItem('comentarios', JSON.stringify(comentarios));
+      mostrarComentarios();
+      e.target.reset();
+    }
 
-    document.getElementById('contenido').innerHTML = `
-      ${mostrarBuscador ? `
-        <div id="buscadorInicio" class="mb-6 text-center">
-          <input type="text" id="buscador" placeholder="Buscar en la farmacia..." class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+    function mostrarComentarios() {
+      const contenedor = document.getElementById('comentarios');
+      const comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+      contenedor.innerHTML = comentarios.map(c => `
+        <div class="border-t pt-2 mt-2">
+          <p><strong>${c.nombre}</strong> (${c.correo}):</p>
+          <p class="text-sm text-gray-700">${c.mensaje}</p>
         </div>
-      ` : ''}
-      <h2 class="text-2xl font-bold text-green-700 mb-3">${info.titulo}</h2>
-      <p class="text-gray-800 mb-4">${info.descripcion}</p>
-      <h3 class="text-lg font-semibold text-gray-700 mb-2">Contenido relacionado:</h3>
-      <ul id="lista-items" class="list-disc pl-5 space-y-1 text-gray-700">${listaItems}</ul>
-    `;
-
-    if (mostrarBuscador) {
-      const buscador = document.getElementById('buscador');
-      buscador.addEventListener('input', () => {
-        const filtro = buscador.value.toLowerCase();
-        const lista = document.getElementById('lista-items');
-        lista.innerHTML = info.items
-          .filter(item => item.toLowerCase().includes(filtro))
-          .map(item => `<li>${item}</li>`)
-          .join('');
-      });
+      `).join('');
     }
-  }
   </script>
 
 </body>
